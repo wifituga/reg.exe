@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>💘 San Valentín</title>
+    <style>
+      :root {
+        --bg1: #ff6aa2;
+        --bg2: #ffd1e3;
+        --card: #ffffffcc;
+        --text: #2b2b2b;
+        --shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+        --radius: 22px;
+        --font:
+          ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font);
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        color: var(--text);
+        background:
+          radial-gradient(1200px 800px at 10% 10%, #fff 0%, transparent 60%),
+          radial-gradient(900px 650px at 90% 20%, #fff 0%, transparent 55%),
+          linear-gradient(135deg, var(--bg1), var(--bg2));
+        overflow: hidden;
+      }
+
+      /* corazoncitos flotando */
+      .hearts {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.35;
+        filter: blur(0.2px);
+      }
+      .heart {
+        position: absolute;
+        font-size: 22px;
+        animation: floatUp linear infinite;
+        transform: translateY(120vh);
+      }
+      @keyframes floatUp {
+        from {
+          transform: translateY(120vh) translateX(0);
+        }
+        to {
+          transform: translateY(-20vh) translateX(30px);
+        }
+      }
+
+      .card {
+        width: min(720px, 92vw);
+        background: var(--card);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+        padding: 28px 22px;
+        text-align: center;
+        position: relative;
+      }
+
+      .badge {
+        display: inline-flex;
+        gap: 0.5rem;
+        align-items: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        font-weight: 600;
+        margin-bottom: 14px;
+      }
+
+      h1 {
+        margin: 6px 0 10px;
+        font-size: clamp(24px, 3.6vw, 40px);
+        letter-spacing: -0.5px;
+      }
+      p {
+        margin: 0 0 18px;
+        font-size: clamp(14px, 2.2vw, 18px);
+        opacity: 0.95;
+      }
+
+      .imgWrap {
+        width: min(360px, 70vw);
+        margin: 0 auto 18px;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        background: #fff;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        transition: opacity 0.18s ease;
+        opacity: 1;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+
+      button {
+        border: 0;
+        padding: 12px 18px;
+        border-radius: 14px;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
+        transition:
+          transform 0.12s ease,
+          box-shadow 0.12s ease,
+          filter 0.12s ease;
+        min-width: 120px;
+      }
+      button:active {
+        transform: translateY(1px) scale(0.99);
+      }
+
+      #yesBtn {
+        background: linear-gradient(180deg, #22c55e, #16a34a);
+        color: #fff;
+      }
+      #noBtn {
+        background: linear-gradient(180deg, #f87171, #ef4444);
+        color: #fff;
+      }
+
+      .final {
+        display: none;
+        margin-top: 12px;
+        padding: 14px 14px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+      }
+
+      /* confeti */
+      .confetti {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        display: none;
+      }
+      .confetti span {
+        position: absolute;
+        width: 10px;
+        height: 14px;
+        border-radius: 2px;
+        top: -20px;
+        animation: fall 1.6s linear infinite;
+        opacity: 0.9;
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(540deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- corazones decorativos -->
+    <div class="hearts" aria-hidden="true" id="hearts"></div>
+
+    <!-- confeti -->
+    <div class="confetti" aria-hidden="true" id="confetti"></div>
+
+    <main class="card">
+      <div class="badge">
+        🦦 <span id="badgeText">Tengo una nutripregunta :D</span>
+      </div>
+
+      <h1 id="title">Regiiii, tuuuuuuu ¿quieres ser mi san valentin :D?</h1>
+      <p id="subtitle"></p>
+
+      <div class="imgWrap">
+        <img
+          id="mainImg"
+          alt="foto tierna"
+          src="https://media1.tenor.com/m/CGQOSjUZ6ggAAAAd/corazon-de-minion-minion.gif"
+        />
+      </div>
+
+      <div class="buttons" id="buttons">
+        <button id="yesBtn">Zi</button>
+        <button id="noBtn">No</button>
+      </div>
+
+      <div class="final" id="finalBox">
+        <h2 style="margin: 6px 0 6px; font-size: 22px">ESOOOOOOO WUUUUU</h2>
+        <p style="margin: 0">Ahora a donde vamos a almorzar o cenar xd</p>
+        <p style="margin: 10px 0 0; font-size: 13px; opacity: 0.75">
+          (mi tio me dijo que todo rime estaba full :,v)
+        </p>
+      </div>
+    </main>
+
+    <script>
+      // Mensajes que van apareciendo si le da "No" (se pondrán en el TÍTULO)
+      const noMessages = [
+        "A",
+        "PEROOOO :|",
+        "Todos me odiban :c",
+        "Pero porque le sigues dando NO :(",
+        "Di que si ploxito :,v",
+        "Otra vez xd?",
+        "Bueno ta bien :(",
+        "Ya pero, dices que si? :D",
+      ];
+
+      // Mantengo TODAS tus imágenes tal cual
+      const noImgs = [
+        "https://media1.tenor.com/m/CGQOSjUZ6ggAAAAd/corazon-de-minion-minion.gif", // 1
+        "https://i.pinimg.com/736x/ad/e9/a5/ade9a56f1ac9c2176b7688a55288060d.jpg", // 2
+        "https://i.pinimg.com/1200x/a7/1b/fb/a71bfb362f54bb3046673e2f2782e7de.jpg", // 3
+        "https://i.pinimg.com/736x/ab/90/2a/ab902ab389504c9389030cafa3f18e6a.jpg", // 4
+        "https://i.pinimg.com/736x/52/08/93/520893dcbd94952932d9a983cfec41cf.jpg", // 5
+        "https://i.pinimg.com/736x/a7/4f/4d/a74f4d90cdd7807e597e26190c8dcb98.jpg",
+        "https://i.pinimg.com/736x/c6/37/af/c637afd232ab932d4bd9171188831896.jpg",
+        "https://i.pinimg.com/736x/6d/eb/5b/6deb5ba783a96717f1ed3784833b958c.jpg",
+        "https://i.pinimg.com/474x/8d/bc/da/8dbcda2e4267bef33c24c7f8a21a37a1.jpg",
+        "https://i.pinimg.com/736x/5d/52/26/5d5226dcef3d0f2d40dd7285f10b6357.jpg",
+      ];
+
+      const imgYes =
+        "https://i.pinimg.com/736x/2c/ef/ac/2cefac3eadd1935b018ec77d7985900b.jpg";
+
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const title = document.getElementById("title");
+      const subtitle = document.getElementById("subtitle");
+      const badgeText = document.getElementById("badgeText");
+      const mainImg = document.getElementById("mainImg");
+      const finalBox = document.getElementById("finalBox");
+      const hint = document.getElementById("hint"); // puede no existir (en tu HTML no está)
+      const confetti = document.getElementById("confetti");
+
+      let noCount = 0;
+      let yesScale = 1;
+
+      // índice para recorrer TODAS las imágenes del botón "No"
+      let noImgIndex = 0; // ya está en la imagen 0 al cargar
+
+      function preload(urls) {
+        urls.forEach((u) => {
+          const im = new Image();
+          im.src = u;
+        });
+      }
+      // precarga (mejora la fluidez al cambiar)
+      preload([...new Set([...noImgs, imgYes])]);
+
+      function swapImage(url) {
+        mainImg.style.opacity = "0";
+        const onLoad = () => {
+          mainImg.style.opacity = "1";
+          mainImg.removeEventListener("load", onLoad);
+        };
+        mainImg.addEventListener("load", onLoad);
+
+        setTimeout(() => {
+          mainImg.src = url;
+        }, 60);
+      }
+
+      function popConfetti() {
+        confetti.style.display = "block";
+        confetti.innerHTML = "";
+        const pieces = 80;
+
+        for (let i = 0; i < pieces; i++) {
+          const s = document.createElement("span");
+          s.style.left = Math.random() * 100 + "vw";
+          s.style.animationDuration = 1.2 + Math.random() * 1.2 + "s";
+          const hue = Math.floor(Math.random() * 360);
+          s.style.background = `hsl(${hue} 90% 60%)`;
+          s.style.width = 8 + Math.random() * 8 + "px";
+          s.style.height = 10 + Math.random() * 10 + "px";
+          confetti.appendChild(s);
+        }
+
+        setTimeout(() => {
+          confetti.style.display = "none";
+        }, 2400);
+      }
+
+      function makeHearts() {
+        const hearts = document.getElementById("hearts");
+        const count = 18;
+        const emojis = ["💗", "💖", "💘", "💞", "💓", "💕"];
+        for (let i = 0; i < count; i++) {
+          const h = document.createElement("div");
+          h.className = "heart";
+          h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          h.style.left = Math.random() * 100 + "vw";
+          h.style.animationDuration = 6 + Math.random() * 7 + "s";
+          h.style.animationDelay = -Math.random() * 10 + "s";
+          h.style.fontSize = 16 + Math.random() * 18 + "px";
+          hearts.appendChild(h);
+        }
+      }
+      makeHearts();
+
+      // asegura imagen inicial = primera del array (tu gif)
+      mainImg.src = noImgs[0];
+
+      noBtn.addEventListener("click", () => {
+        // 1) Cambia foto recorriendo TODAS las imágenes en loop
+        noImgIndex = (noImgIndex + 1) % noImgs.length;
+        swapImage(noImgs[noImgIndex]);
+
+        // 2) Mensajes: CAMBIAN EL TÍTULO (no el texto de arriba)
+        const msg = noMessages[Math.min(noCount, noMessages.length - 1)];
+        title.textContent = msg;
+
+        // 3) Hace el botón "Zi" más grande cada vez
+        noCount++;
+        yesScale = Math.min(yesScale + 0.18, 2.2);
+        yesBtn.style.transform = `scale(${yesScale})`;
+
+        // 4) Hace el botón "No" un poquito más pequeño
+        const noScale = Math.max(1 - noCount * 0.06, 0.72);
+        noBtn.style.transform = `scale(${noScale})`;
+      });
+
+      yesBtn.addEventListener("click", () => {
+        // Estado final (mantengo tus textos)
+        title.textContent = "ESOOOOOOOOOOOOOOOOOO WUUUUUU";
+        subtitle.textContent = "jeje teamito";
+        // Mantengo el texto de arriba sin cambios:
+        // badgeText.textContent = "Tengo una nutripregunta :D";
+
+        // Cambia a imagen final
+        swapImage(imgYes);
+
+        finalBox.style.display = "block";
+        if (hint) hint.style.display = "none";
+
+        // desactiva botones
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+        noBtn.style.filter = "grayscale(.2)";
+
+        popConfetti();
+      });
+    </script>
+  </body>
+</html>
